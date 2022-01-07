@@ -27,8 +27,8 @@
                 </div>
 
                 <div class="tags-wrapper flex flex-wrap align-items-center justify-start">
-                    <a href="Javascript:void(0)" @click="filterTag('All')" v-bind:class="{'active': selectedTag == 'All'}" class="px-5 py-2 rounded-3xl border border-gray-600  hover:border-gray-300 hover:text-gray-300 text-gray-600 text-xs md:text-sm mr-3 mb-3">All</a>
-                    <a href="Javascript:void(0)" @click="filterTag(tag)" v-bind:class="{'active': selectedTag == tag}" v-for="(tag, index) in tags" class="px-3 py-2 rounded-3xl border border-gray-600  hover:border-gray-300 hover:text-gray-300 text-gray-600 text-xs md:text-sm mr-3 mb-3">{{tag}}</a>
+                    <a href="Javascript:void(0)" @click="filterTag('All')" v-bind:class="{'active': selectedTag.length == 0}" class="px-5 py-2 rounded-3xl border border-gray-600  hover:border-gray-300 hover:text-gray-300 text-gray-600 text-xs md:text-sm mr-3 mb-3">All</a>
+                    <a href="Javascript:void(0)" @click="filterTag(tag)" v-bind:class="{'active': selectedTag.indexOf(tag) >= 0}" v-for="(tag, index) in tags" class="px-3 py-2 rounded-3xl border border-gray-600  hover:border-gray-300 hover:text-gray-300 text-gray-600 text-xs md:text-sm mr-3 mb-3">{{tag}}</a>
                 </div>
             </div>
             
@@ -43,7 +43,7 @@
                             </a>
 
                             <div class="text-xs text-left absolute bottom-0 left-0 p-3">
-                                <span v-for="(tag, index) in item['fields']['Tags']" @click="filterTag(tag)" v-bind:class="{'active': selectedTag == tag}" class="tag cursor-pointer px-3 py-1 inline-block rounded-2xl font-light border border-white text-white mr-2">{{tag}}</span>
+                                <span v-for="(tag, index) in item['fields']['Tags']" @click="filterTag(tag)" v-bind:class="{'active': selectedTag == tag}" class="tag cursor-pointer px-3 py-1 mt-1 inline-block rounded-2xl font-light border border-white text-white mr-1">{{tag}}</span>
                             </div>
                         </div>
                         
@@ -75,7 +75,7 @@
                 items: [],
                 tags: [],
                 errors: [],
-                selectedTag: "All",
+                selectedTag: [],
                 successMessage: false
             },
             mounted: function(){
@@ -115,16 +115,47 @@
                     })
                 },
                 filterTag: function(tag){
-                    this.selectedTag = tag;
-                    if(tag == 'All'){
+
+                    if(this.selectedTag.indexOf(tag) == -1){
+                        this.selectedTag.push(tag);
+                    }
+                    else {
+                        const index = this.selectedTag.indexOf(tag);
+                        this.selectedTag.splice(index, 1);
+                    }
+
+                    if(this.selectedTag.length == 0){
                         this.items = this.allRecords;
                         return false;
                     }
 
-
-
                     this.items = this.allRecords.filter(x => {
-                        return x.fields.Tags.indexOf(tag) >= 0;
+
+                        // if(this.selectedTag.length == 1){
+                        //     var matched = false;
+                        //     x.fields.Tags.forEach(element => {
+                        //         if(this.selectedTag.indexOf(element) >= 0){
+                        //             matched = true;
+                                    
+                        //             return true;
+                        //         }
+                        //     });
+
+                        //     return matched;
+                        // }
+                        // else {
+                            var matched = 0;
+                            x.fields.Tags.forEach(element => {
+                                if(this.selectedTag.indexOf(element) > -1){
+                                    matched++;
+                                }
+                            });
+
+                            if(matched === x.fields.Tags.length){
+                                return true;
+                            }
+                        //}
+                        
                     });
                 }
             }
