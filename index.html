@@ -43,7 +43,7 @@
                             </a>
 
                             <div class="text-xs text-left absolute bottom-0 left-0 p-3">
-                                <span v-for="(tag, index) in item['fields']['Tags']" @click="filterTag(tag)" v-bind:class="{'active': selectedTag == tag}" class="tag cursor-pointer px-3 py-1 mt-1 inline-block rounded-2xl font-light border border-white text-white mr-1">{{tag}}</span>
+                                <span v-for="(tag, index) in item['fields']['Tags']" @click="filterTag(tag)" v-bind:class="{'active': selectedTag.indexOf(tag) >= 0}" class="tag cursor-pointer px-3 py-1 mt-1 inline-block rounded-2xl font-light border border-white text-white mr-1">{{tag}}</span>
                             </div>
                         </div>
                         
@@ -67,6 +67,7 @@
     <script type="text/javascript" src="https://unpkg.com/vue"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
     
+
     <script type="text/javascript">
         var app = new Vue({
             el: '#app',
@@ -75,8 +76,7 @@
                 items: [],
                 tags: [],
                 errors: [],
-                selectedTag: [],
-                successMessage: false
+                selectedTag: []
             },
             mounted: function(){
                 this.loadItems(); 
@@ -108,14 +108,13 @@
                                 }
                             });
                         });
-                        console.log("response", response.data);
 
                     }).catch(function(error){
                         console.log(error)
                     })
                 },
                 filterTag: function(tag){
-
+                    // Filtering Logic
                     if(this.selectedTag.indexOf(tag) == -1){
                         this.selectedTag.push(tag);
                     }
@@ -131,31 +130,16 @@
 
                     this.items = this.allRecords.filter(x => {
 
-                        // if(this.selectedTag.length == 1){
-                        //     var matched = false;
-                        //     x.fields.Tags.forEach(element => {
-                        //         if(this.selectedTag.indexOf(element) >= 0){
-                        //             matched = true;
-                                    
-                        //             return true;
-                        //         }
-                        //     });
-
-                        //     return matched;
-                        // }
-                        // else {
-                            var matched = 0;
-                            x.fields.Tags.forEach(element => {
-                                if(this.selectedTag.indexOf(element) > -1){
-                                    matched++;
-                                }
-                            });
-
-                            if(matched === x.fields.Tags.length){
+                        var matched = false;
+                        x.fields.Tags.forEach(element => {
+                            if(this.selectedTag.indexOf(element) >= 0){
+                                matched = true;
+                                
                                 return true;
                             }
-                        //}
-                        
+                        });
+
+                        return matched;                 
                     });
                 }
             }
