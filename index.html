@@ -128,22 +128,24 @@
                         return false;
                     }
 
+
                     this.items = this.allRecords.filter(x => {
-                        
-                        if(x.fields.Tags.length !== this.selectedTag.length){
-                            return false;
-                        }
 
-                        var matched = 0;
-                        x.fields.Tags.forEach(element => {
-                            if(this.selectedTag.indexOf(element) > -1){
-                                matched++;
+                        var matched = false;
+
+                        for(var i = 0; i < this.selectedTag.length; i++) {
+
+                            if(x.fields.Tags.indexOf(this.selectedTag[i]) >= 0){
+                                    matched = true;
                             }
-                        });
+                            else {
+                                matched = false;
+                                break;
+                            }
+                        };
 
-                        if(matched === x.fields.Tags.length){
-                            return true;
-                        }                 
+
+                        return matched;
                     });
                 }
             }
