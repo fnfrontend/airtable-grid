@@ -13,10 +13,10 @@
 <body class="h-screen overflow-x-hidden">
                  
     <div id="app">
-        <div class="container w-full mx-auto px-4 pt-8 pb-20">
+        <div class="container overflow-hidden w-full mx-auto px-4 pt-8 pb-20">
 
             <div class="">
-                <div class="text-center mb-8 flex align-items-center justify-center text-center">
+                <div class="text-center mb-8 flex items-center justify-center text-center">
                     <svg class="w-8 h-8 inline-block mr-4" aria-hidden="true" focusable="false" data-prefix="fad" data-icon="play" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                         <g class="fa-group">
                             <path fill="white" class="opacity-25" d="M424.41 214.66L72.41 6.55C43.81-10.34 0 6.05 0 47.87V464c0 37.5 40.69 60.09 72.41 41.3l352-208c31.4-18.54 31.5-64.14 0-82.64zM321.89 283.5L112.28 407.35C91 420 64 404.58 64 379.8V132c0-24.78 27-40.16 48.28-27.54l209.61 123.95a32 32 0 0 1 0 55.09z"></path>
@@ -26,7 +26,7 @@
                     <h5 class="text-center text-2xl md:text-3xl text-4xl text-white">Videos</h5>
                 </div>
 
-                <div class="tags-wrapper flex flex-wrap align-items-center justify-start">
+                <div class="tags-wrapper flex flex-wrap items-center justify-start">
                     <a href="Javascript:void(0)" @click="filterTag('All')" v-bind:class="{'active': selectedTag.length == 0}" class="px-5 py-2 rounded-3xl border border-gray-600  hover:border-gray-300 hover:text-gray-300 text-gray-600 text-xs md:text-sm mr-3 mb-3">All</a>
                     <a href="Javascript:void(0)" @click="filterTag(tag)" v-bind:class="{'active': selectedTag.indexOf(tag) >= 0}" v-for="(tag, index) in tags" class="px-3 py-2 rounded-3xl border border-gray-600  hover:border-gray-300 hover:text-gray-300 text-gray-600 text-xs md:text-sm mr-3 mb-3">{{tag}}</a>
                 </div>
@@ -50,7 +50,7 @@
                         <div class="description py-3 text-left">
                             <div class="font-bold text-base md:text-lg text-left bottom-b mb-1 text-white" v-html="item['fields']['Title']"></div>
                         
-                            <a :href="item['fields']['Comment']" class="py-2 text-sm inline-flex align-items-center text-gray-600 hover:text-gray-300" target="_blank">
+                            <a :href="item['fields']['Comment']" class="py-2 text-sm inline-flex items-center text-gray-600 hover:text-gray-300" target="_blank">
                                 <svg class="w-4 h-4 mr-2" fill="currentColor" aria-hidden="true" focusable="false" data-prefix="far" data-icon="comment-alt-lines" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" ><path fill="currentColor" d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 7.1 5.8 12 12 12 2.4 0 4.9-.7 7.1-2.4L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm16 352c0 8.8-7.2 16-16 16H288l-12.8 9.6L208 428v-60H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16h384c8.8 0 16 7.2 16 16v288zm-96-216H144c-8.8 0-16 7.2-16 16v16c0 8.8 7.2 16 16 16h224c8.8 0 16-7.2 16-16v-16c0-8.8-7.2-16-16-16zm-96 96H144c-8.8 0-16 7.2-16 16v16c0 8.8 7.2 16 16 16h128c8.8 0 16-7.2 16-16v-16c0-8.8-7.2-16-16-16z" class=""></path></svg>
                                 Comment
                             </a>
