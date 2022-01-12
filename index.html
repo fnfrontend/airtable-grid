@@ -109,6 +109,8 @@
                             });
                         });
 
+                        self.tags.sort();
+
                     }).catch(function(error){
                         console.log(error)
                     })
@@ -130,13 +132,12 @@
 
 
                     this.items = this.allRecords.filter(x => {
-
                         var matched = false;
 
                         for(var i = 0; i < this.selectedTag.length; i++) {
 
                             if(x.fields.Tags.indexOf(this.selectedTag[i]) >= 0){
-                                    matched = true;
+                                matched = true;
                             }
                             else {
                                 matched = false;
